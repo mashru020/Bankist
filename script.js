@@ -192,8 +192,37 @@ const createUserName = function(accs){
 }
 createUserName(accounts);
 
+// -------------------------------  Timer  --------------------------------
+const starLogOutTimer = function() {
+    const tick = function() {
+        const min = String(Math.trunc(time / 60)).padStart(2,0);
+        const sec = String(time % 60).padStart(2,0);
+
+        // In each call , Print the remaining time to UI
+        labelTimer.textContent = `${min}:${sec}`;
+
+        // When 0 seconds,  stop timer and Log out user
+        if(time === 0) {
+            clearInterval(timer);
+            labelWelcome.textContent = `Log in to get strated`;
+
+            containerApp.style.opacity = 0;
+        }
+
+        // Decrese 1s
+        time--;
+    }
+    // Set time to 2 minutes
+    let time = 120;
+    
+    // call timer every second
+    tick();
+    const timer = setInterval(tick , 1000);
+    return timer;
+    
+}
 // ------------------------- Event Handler  ------------------------------
-let currentAccount;
+let currentAccount, timer;
 
 btnLogin.addEventListener('click', function(e){
     //Prevent form from submitting
@@ -221,6 +250,9 @@ btnLogin.addEventListener('click', function(e){
         // Internationalization Date
         labelDate.textContent = `${new Intl.DateTimeFormat(currentAccount.locale, options).format(now)}`;
 
+        if(timer) clearInterval(timer);
+        timer = starLogOutTimer();
+
         updateUI(currentAccount);
 
     }
@@ -247,6 +279,9 @@ btnTransfer.addEventListener('click',function(e){
         reciverAccount.movementsDates.push(new Date().toISOString());
 
     }
+
+    if(timer) clearInterval(timer);
+    timer = starLogOutTimer();
     updateUI(currentAccount);
 
 });
@@ -257,15 +292,22 @@ btnLoan.addEventListener('click', function(e) {
     if (
         amount > 0 && 
         currentAccount.movements.some( mov => mov >= amount * .1 )){
+            // SetTimeout function
+            setTimeout(function() {
 
-            // add movement
-            currentAccount.movements.push(amount);
+           
 
-            // add movement date
-            currentAccount.movementsDates.push(new Date().toISOString());
+                // add movement
+                currentAccount.movements.push(amount);
 
-            // update UI
-            updateUI(currentAccount);
+                // add movement date
+                currentAccount.movementsDates.push(new Date().toISOString());
+
+                if(timer) clearInterval(timer);
+                timer = starLogOutTimer();
+                // update UI
+                updateUI(currentAccount);
+            },2500);
         }
         inputLoanAmount.value = '';
         inputLoanAmount.blur();
