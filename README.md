@@ -13,6 +13,9 @@ operatins:
   5. Loan 
   6. Delete account
   7. sort
+  8. counter - auto logout after 2 min
+  9. Internationalization date and number based on language ans currency type
+
 
 created methods:
   1. displayMovements()
@@ -20,6 +23,9 @@ created methods:
   3. calcDisplaySummery()
   4. updateUI()
   5. createUserName()
+  6. formatMovementDate()
+  7. formatCur()
+  8. startLogoutTimer()
 
 used methods:
   1. .insertAdjacentHTML()
@@ -38,3 +44,11 @@ used methods:
   14. .some()
   15. .findIndex()
   16. splice()
+  17. new Intl.DateTimeFormat().format()
+  18. new Intl.NumberFormat().format()
+  19. padStart()
+  20. setInterval()
+  21. clearInterval()
+  22. setTimeout()
+  23. toISOString()
+  24. new Date()
