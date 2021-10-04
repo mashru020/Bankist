@@ -323,14 +323,14 @@ btnClose.addEventListener('click', function(e) {
     )  {
 
         const index = accounts.findIndex(acc => acc.username === currentAccount.username);
-        console.log(index);
-
 
         // Delete account
         accounts.splice(index, 1);
+        labelWelcome.textContent = `Log in to get strated`;
 
         // hide UI
         containerApp.style.opacity = 0;
+        
     }
     inputClosePin.value = inputCloseUsername.value = '';
     inputClosePin.blur();
